@@ -44,7 +44,13 @@ find_package(SWIG3 REQUIRED)
 find_package(PythonInterpLibs REQUIRED)
 find_package(MPI)
 find_package(BLAS REQUIRED)
-find_package(LAPACK)
+## ignore LAPACK if OpenBlas is found
+if(NOT BLA_VENDOR STREQUAL "OpenBLAS")
+    find_package(LAPACK)
+else() # if OpenBlas is used, then we have Lapack
+    set(LAPACK_FOUND true)
+endif()
+
 find_package(NumPy)
 
 if(NOT NUMPY_FOUND)
